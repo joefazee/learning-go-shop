@@ -15,7 +15,7 @@ func main() {
 		log.Fatal().Err(err).Msg("failed to load config")
 	}
 
-	db, err := database.New(cfg.Database)
+	db, err := database.New(&cfg.Database)
 	if err != nil {
 		log.Fatal().Err(err).Msg("failed to connect to database")
 	}
