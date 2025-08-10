@@ -170,6 +170,10 @@ func (s *ProductService) UpdateProduct(id uint, req *dto.UpdateProductRequest) (
 	return s.GetProduct(id)
 }
 
+func (s *ProductService) DeleteProduct(id uint) error {
+	return s.db.Delete(&models.Product{}, id).Error
+}
+
 func (s *ProductService) convertToProductResponse(product *models.Product) dto.ProductResponse {
 	images := make([]dto.ProductImageResponse, len(product.Images))
 	for i := range product.Images {
