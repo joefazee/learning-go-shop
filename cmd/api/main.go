@@ -15,6 +15,7 @@ import (
 	"github.com/joefazee/learning-go-shop/internal/database"
 	"github.com/joefazee/learning-go-shop/internal/logger"
 	"github.com/joefazee/learning-go-shop/internal/server"
+	"github.com/joefazee/learning-go-shop/internal/services"
 )
 
 func main() {
@@ -38,7 +39,11 @@ func main() {
 	defer mainDB.Close()
 	gin.SetMode(cfg.Server.GinMode)
 
-	srv := server.New(cfg, db, &log)
+	authService := services.NewAuthService(db, cfg)
+	productService := services.NewProductService(db)
+	userService := services.NewUserService(db)
+
+	srv := server.New(cfg, db, &log, authService, productService, userService)
 
 	router := srv.SetupRoutes()
 
