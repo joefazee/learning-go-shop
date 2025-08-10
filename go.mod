@@ -4,6 +4,7 @@ go 1.24.4
 
 require (
 	github.com/gin-gonic/gin v1.10.1
+	github.com/golang-jwt/jwt/v5 v5.3.0
 	github.com/joho/godotenv v1.5.1
 	github.com/rs/zerolog v1.34.0
 	gorm.io/driver/postgres v1.6.0
