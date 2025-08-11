@@ -1,7 +1,6 @@
 package providers
 
 import (
-	"fmt"
 	"mime/multipart"
 	"os"
 	"path/filepath"
@@ -42,7 +41,7 @@ func (p *LocalUploadProvider) UploadFile(file *multipart.FileHeader, path string
 		return "", err
 	}
 
-	return fmt.Sprintf("/uploads/%s", path), nil
+	return path, nil
 
 }
 
