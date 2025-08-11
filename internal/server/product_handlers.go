@@ -5,8 +5,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/joefazee/learning-go-shop/internal/dto"
-	"github.com/joefazee/learning-go-shop/internal/providers"
-	"github.com/joefazee/learning-go-shop/internal/services"
 	"github.com/joefazee/learning-go-shop/internal/utils"
 )
 
@@ -168,10 +166,7 @@ func (s *Server) uploadProductImage(c *gin.Context) {
 		return
 	}
 
-	uploadProvider := providers.NewLocalUploadProvider(s.config.Upload.Path)
-	uploadService := services.NewUploadService(uploadProvider)
-
-	url, err := uploadService.UploadProductImage(uint(id), file)
+	url, err := s.uploadService.UploadProductImage(uint(id), file)
 	if err != nil {
 		utils.InternalServerErrorResponse(c, "Failed to upload image", err)
 		return
