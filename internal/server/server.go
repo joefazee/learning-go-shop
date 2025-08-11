@@ -5,7 +5,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/joefazee/learning-go-shop/internal/config"
-	"github.com/joefazee/learning-go-shop/internal/interfaces"
 	"github.com/joefazee/learning-go-shop/internal/services"
 	"github.com/rs/zerolog"
 	"gorm.io/gorm"
@@ -18,7 +17,7 @@ type Server struct {
 	authService    *services.AuthService
 	productService *services.ProductService
 	userService    *services.UserService
-	uploadService  interfaces.UploadProvider
+	uploadService  *services.UploadService
 }
 
 func New(cfg *config.Config,
@@ -27,6 +26,7 @@ func New(cfg *config.Config,
 	authService *services.AuthService,
 	productService *services.ProductService,
 	userService *services.UserService,
+	uploadService *services.UploadService,
 ) *Server {
 	return &Server{
 		config:         cfg,
@@ -35,6 +35,7 @@ func New(cfg *config.Config,
 		authService:    authService,
 		productService: productService,
 		userService:    userService,
+		uploadService:  uploadService,
 	}
 }
 

@@ -13,7 +13,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/joefazee/learning-go-shop/internal/config"
 	"github.com/joefazee/learning-go-shop/internal/database"
+	"github.com/joefazee/learning-go-shop/internal/interfaces"
 	"github.com/joefazee/learning-go-shop/internal/logger"
+	"github.com/joefazee/learning-go-shop/internal/providers"
 	"github.com/joefazee/learning-go-shop/internal/server"
 	"github.com/joefazee/learning-go-shop/internal/services"
 )
@@ -39,11 +41,19 @@ func main() {
 	defer mainDB.Close()
 	gin.SetMode(cfg.Server.GinMode)
 
+	var uploadProvider interfaces.UploadProvider
+	if cfg.Upload.UploadProvider == "local" {
+		uploadProvider = providers.NewLocalUploadProvider(cfg.Upload.Path)
+	} else {
+		panic("upload provider not supported")
+	}
+
 	authService := services.NewAuthService(db, cfg)
 	productService := services.NewProductService(db)
 	userService := services.NewUserService(db)
+	uploadService := services.NewUploadService(uploadProvider)
 
-	srv := server.New(cfg, db, &log, authService, productService, userService)
+	srv := server.New(cfg, db, &log, authService, productService, userService, uploadService)
 
 	router := srv.SetupRoutes()
 
