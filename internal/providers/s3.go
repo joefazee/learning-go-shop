@@ -52,7 +52,7 @@ func NewS3Provider(cfg *appconfig.Config) *S3Provider {
 }
 
 func (p *S3Provider) UploadFile(file *multipart.FileHeader, path string) (string, error) {
-	
+
 	src, err := file.Open()
 	if err != nil {
 		return "", err
