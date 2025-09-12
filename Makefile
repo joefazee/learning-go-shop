@@ -12,7 +12,15 @@ help:
 
 
 build:
-	go build -o bin/app ./cmd/api
+	@echo "Building all binaries...."
+	@mkdir -p bin
+	@for cmd in cmd/*/; do \
+    		if [ -d "$$cmd" ]; then \
+    			binary=$$(basename $$cmd); \
+    			echo "Building $$binary..."; \
+    			go build -o bin/$$binary ./$$cmd; \
+    		fi \
+    	done
 
 run:
 	go run ./cmd/api
