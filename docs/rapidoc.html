@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+    <title>E-Commerce API Documentation</title>
+    <meta charset="utf-8">
+    <script type="module" src="https://unpkg.com/rapidoc/dist/rapidoc-min.js"></script>
+    <style>
+        body { margin: 0; padding: 0; }
+    </style>
+</head>
+<body>
+<rapi-doc
+        spec-url="/docs/doc.json"
+        server-url="http://localhost:8080/api/v1"
+        theme="dark"
+        bg-color="#1a1a1a"
+        text-color="#ffffff"
+        header-color="#2d3748"
+        primary-color="#3182ce"
+        nav-bg-color="#2d3748"
+        nav-text-color="#ffffff"
+        nav-hover-bg-color="#4a5568"
+        nav-hover-text-color="#ffffff"
+        nav-accent-color="#3182ce"
+        render-style="focused"
+        schema-style="table"
+        default-schema-tab="schema"
+        show-header="true"
+        show-info="true"
+        allow-authentication="true"
+        allow-server-selection="true"
+        allow-api-list-style-selection="false"
+        show-components="true"
+        sort-tags="true"
+        goto-path=""
+        fill-request-fields-with-example="true"
+        persist-auth="true"
+        use-path-in-nav-bar="false"
+>
+    <div slot="logo" style="display: flex; align-items: center; color: white;">
+        <div style="margin-left: 7px; font-size: 20px; font-weight: bold;">🛒 E-Commerce API</div>
+    </div>
+</rapi-doc>
+</body>
+</html>
