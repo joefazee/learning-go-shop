@@ -51,6 +51,51 @@ services:
       - localstack_data:/var/lib/localstack
       - ./init/aws/init-localstack.sh:/etc/localstack/init/ready.d/init.sh
 
+  app:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+      - localstack
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=password
+      - DB_NAME=ecommerce
+      - AWS_S3_ENDPOINT=http://localstack:4566
+      - AWS_REGION=us-east-1
+      - SMTP_HOST=mailpit
+      - SMTP_PORT=1025
+      - SMTP_FROM=noreply@shop.com
+    command: [ "./api" ]
+
+  notifier:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    depends_on:
+      - postgres
+      - localstack
+      - mailpit
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=password
+      - DB_NAME=ecommerce
+      - AWS_S3_ENDPOINT=http://localstack:4566
+      - AWS_REGION=us-east-1
+      - SMTP_HOST=mailpit
+      - SMTP_PORT=1025
+      - SMTP_FROM=noreply@shop.com
+    command: [ "./notifier" ]
+    deploy:
+      replicas: 1
+
 volumes:
     postgres_data:
     localstack_data:
