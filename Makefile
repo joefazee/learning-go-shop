@@ -50,3 +50,7 @@ docker-up:
 
 docker-down:
 	docker compose -f docker/docker-compose.yml down
+
+graph-generate:
+	@go get github.com/99designs/gqlgen@v0.17.78
+	@go run github.com/99designs/gqlgen generate
