@@ -1,0 +1,41 @@
+type Query {
+
+    me: User
+
+    products(page: Int = 1, limit: Int = 10): ProductConnection!
+    product(id: ID!): Product
+
+    categories: [Category!]!
+
+    cart: Cart
+
+    orders(page: Int = 1, limit: Int = 10): OrderConnection!
+    order(id: ID!): Order
+
+
+}
+
+type Mutation {
+
+    register(input: RegisterInput!): AuthPayload!
+    login(input: LoginInput!): AuthPayload!
+    refreshToken(input: RefreshTokenInput!): AuthPayload!
+    logout(input: RefreshTokenInput!): Boolean!
+
+    updateProfile(input: UpdateProfileInput!): User!
+
+    createCategory(input: CreateCategoryInput!): Category!
+    updateCategory(id: ID!, input: UpdateCategoryInput!): Category!
+    deleteCategory(id: ID!): Boolean!
+
+    createProduct(input: CreateProductInput!): Product!
+    updateProduct(id: ID!, input: UpdateProductInput!): Product!
+    deleteProduct(id: ID!): Boolean!
+
+    addToCart(input: AddToCartInput!): Cart!
+    updateCartItem(id: ID!, input: UpdateCartItemInput!): Cart!
+    removeFromCart(id: ID!): Boolean!
+
+    createOrder: Order!
+
+}
