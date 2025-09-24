@@ -14,57 +14,57 @@ import (
 
 // ID is the resolver for the id field.
 func (r *cartResolver) ID(ctx context.Context, obj *dto.CartResponse) (string, error) {
-	panic(fmt.Errorf("not implemented: ID - id"))
+	return fmt.Sprintf("%d", obj.ID), nil
 }
 
 // UserID is the resolver for the user_id field.
 func (r *cartResolver) UserID(ctx context.Context, obj *dto.CartResponse) (string, error) {
-	panic(fmt.Errorf("not implemented: UserID - user_id"))
+	return fmt.Sprintf("%d", obj.UserID), nil
 }
 
 // ID is the resolver for the id field.
 func (r *cartItemResolver) ID(ctx context.Context, obj *dto.CartItemResponse) (string, error) {
-	panic(fmt.Errorf("not implemented: ID - id"))
+	return fmt.Sprintf("%d", obj.ID), nil
 }
 
 // ID is the resolver for the id field.
 func (r *categoryResolver) ID(ctx context.Context, obj *dto.CategoryResponse) (string, error) {
-	panic(fmt.Errorf("not implemented: ID - id"))
+	return fmt.Sprintf("%d", obj.ID), nil
 }
 
 // ID is the resolver for the id field.
 func (r *orderResolver) ID(ctx context.Context, obj *dto.OrderResponse) (string, error) {
-	panic(fmt.Errorf("not implemented: ID - id"))
+	return fmt.Sprintf("%d", obj.ID), nil
 }
 
 // UserID is the resolver for the user_id field.
 func (r *orderResolver) UserID(ctx context.Context, obj *dto.OrderResponse) (string, error) {
-	panic(fmt.Errorf("not implemented: UserID - user_id"))
+	return fmt.Sprintf("%d", obj.UserID), nil
 }
 
 // ID is the resolver for the id field.
 func (r *orderItemResolver) ID(ctx context.Context, obj *dto.OrderItemResponse) (string, error) {
-	panic(fmt.Errorf("not implemented: ID - id"))
+	return fmt.Sprintf("%d", obj.ID), nil
 }
 
 // ID is the resolver for the id field.
 func (r *productResolver) ID(ctx context.Context, obj *dto.ProductResponse) (string, error) {
-	panic(fmt.Errorf("not implemented: ID - id"))
+	return fmt.Sprintf("%d", obj.ID), nil
 }
 
 // CategoryID is the resolver for the category_id field.
 func (r *productResolver) CategoryID(ctx context.Context, obj *dto.ProductResponse) (string, error) {
-	panic(fmt.Errorf("not implemented: CategoryID - category_id"))
+	return fmt.Sprintf("%d", obj.CategoryID), nil
 }
 
 // ID is the resolver for the id field.
 func (r *productImageResolver) ID(ctx context.Context, obj *dto.ProductImageResponse) (string, error) {
-	panic(fmt.Errorf("not implemented: ID - id"))
+	return fmt.Sprintf("%d", obj.ID), nil
 }
 
 // ID is the resolver for the id field.
 func (r *userResolver) ID(ctx context.Context, obj *dto.UserResponse) (string, error) {
-	panic(fmt.Errorf("not implemented: ID - id"))
+	return fmt.Sprintf("%d", obj.ID), nil
 }
 
 // Cart returns graph.CartResolver implementation.
