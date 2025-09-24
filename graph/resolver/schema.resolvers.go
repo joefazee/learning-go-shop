@@ -174,17 +174,57 @@ func (r *mutationResolver) DeleteProduct(ctx context.Context, id string) (bool, 
 
 // AddToCart is the resolver for the addToCart field.
 func (r *mutationResolver) AddToCart(ctx context.Context, input dto.AddToCartRequest) (*dto.CartResponse, error) {
-	panic(fmt.Errorf("not implemented: AddToCart - addToCart"))
+	userID, err := GetUserIDFromContext(ctx)
+	if err != nil {
+		return nil, ErrUnauthorized
+	}
+
+	cart, err := r.cartService.AddToCart(userID, &input)
+	if err != nil {
+		return nil, fmt.Errorf("failed to add to cart: %w", err)
+	}
+
+	return cart, nil
 }
 
 // UpdateCartItem is the resolver for the updateCartItem field.
 func (r *mutationResolver) UpdateCartItem(ctx context.Context, id string, input dto.UpdateCartItemRequest) (*dto.CartResponse, error) {
-	panic(fmt.Errorf("not implemented: UpdateCartItem - updateCartItem"))
+	userID, err := GetUserIDFromContext(ctx)
+	if err != nil {
+		return nil, ErrUnauthorized
+	}
+
+	itemID, err := r.parseID(id)
+	if err != nil {
+		return nil, fmt.Errorf("invalid item ID: %w", err)
+	}
+
+	cart, err := r.cartService.UpdateCartItem(userID, itemID, &input)
+	if err != nil {
+		return nil, fmt.Errorf("failed to update cart item: %w", err)
+	}
+
+	return cart, nil
 }
 
 // RemoveFromCart is the resolver for the removeFromCart field.
 func (r *mutationResolver) RemoveFromCart(ctx context.Context, id string) (bool, error) {
-	panic(fmt.Errorf("not implemented: RemoveFromCart - removeFromCart"))
+	userID, err := GetUserIDFromContext(ctx)
+	if err != nil {
+		return false, ErrUnauthorized
+	}
+
+	itemID, err := r.parseID(id)
+	if err != nil {
+		return false, fmt.Errorf("invalid item ID: %w", err)
+	}
+
+	err = r.cartService.RemoveFromCart(userID, itemID)
+	if err != nil {
+		return false, fmt.Errorf("failed to remove from cart: %w", err)
+	}
+
+	return true, nil
 }
 
 // CreateOrder is the resolver for the createOrder field.
@@ -277,7 +317,17 @@ func (r *queryResolver) Categories(ctx context.Context) ([]*dto.CategoryResponse
 
 // Cart is the resolver for the cart field.
 func (r *queryResolver) Cart(ctx context.Context) (*dto.CartResponse, error) {
-	panic(fmt.Errorf("not implemented: Cart - cart"))
+	userID, err := GetUserIDFromContext(ctx)
+	if err != nil {
+		return nil, ErrUnauthorized
+	}
+
+	cart, err := r.cartService.GetCart(userID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get cart: %w", err)
+	}
+
+	return cart, nil
 }
 
 // Orders is the resolver for the orders field.
