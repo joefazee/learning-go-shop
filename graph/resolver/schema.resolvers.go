@@ -68,19 +68,56 @@ func (r *mutationResolver) UpdateProfile(ctx context.Context, input dto.UpdatePr
 	return user, nil
 }
 
-// CreateCategory is the resolver for the createCategory field.
+// CreateCategory is the resolver for the createCategory field. - Admin action
 func (r *mutationResolver) CreateCategory(ctx context.Context, input dto.CreateCategoryRequest) (*dto.CategoryResponse, error) {
-	panic(fmt.Errorf("not implemented: CreateCategory - createCategory"))
+	if !IsAdminFromContext(ctx) {
+		return nil, ErrUnauthorized
+	}
+
+	category, err := r.productService.CreateCategory(&input)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create category: %w", err)
+	}
+
+	return category, nil
 }
 
-// UpdateCategory is the resolver for the updateCategory field.
+// UpdateCategory is the resolver for the updateCategory field. - Admin action
 func (r *mutationResolver) UpdateCategory(ctx context.Context, id string, input dto.UpdateCategoryRequest) (*dto.CategoryResponse, error) {
-	panic(fmt.Errorf("not implemented: UpdateCategory - updateCategory"))
+	if !IsAdminFromContext(ctx) {
+		return nil, ErrUnauthorized
+	}
+
+	categoryID, err := r.parseID(id)
+	if err != nil {
+		return nil, fmt.Errorf("invalid category ID: %w", err)
+	}
+
+	category, err := r.productService.UpdateCategory(categoryID, &input)
+	if err != nil {
+		return nil, fmt.Errorf("failed to update category: %w", err)
+	}
+
+	return category, nil
 }
 
-// DeleteCategory is the resolver for the deleteCategory field.
+// DeleteCategory is the resolver for the deleteCategory field. - Admin action
 func (r *mutationResolver) DeleteCategory(ctx context.Context, id string) (bool, error) {
-	panic(fmt.Errorf("not implemented: DeleteCategory - deleteCategory"))
+	if !IsAdminFromContext(ctx) {
+		return false, ErrUnauthorized
+	}
+
+	categoryID, err := r.parseID(id)
+	if err != nil {
+		return false, fmt.Errorf("invalid category ID: %w", err)
+	}
+
+	err = r.productService.DeleteCategory(categoryID)
+	if err != nil {
+		return false, fmt.Errorf("failed to delete category: %w", err)
+	}
+
+	return true, nil
 }
 
 // CreateProduct is the resolver for the createProduct field.
@@ -145,7 +182,18 @@ func (r *queryResolver) Product(ctx context.Context, id string) (*dto.ProductRes
 
 // Categories is the resolver for the categories field.
 func (r *queryResolver) Categories(ctx context.Context) ([]*dto.CategoryResponse, error) {
-	panic(fmt.Errorf("not implemented: Categories - categories"))
+
+	categories, err := r.productService.GetCategories()
+	if err != nil {
+		return nil, fmt.Errorf("failed to get categories: %w", err)
+	}
+
+	result := make([]*dto.CategoryResponse, len(categories))
+	for i, cat := range categories {
+		result[i] = &cat
+	}
+
+	return result, nil
 }
 
 // Cart is the resolver for the cart field.
