@@ -1,0 +1,60 @@
+input RegisterInput {
+    email: String!
+    password: String!
+    first_name: String!
+    last_name: String!
+    phone: String
+}
+
+input LoginInput {
+    email: String!
+    password: String!
+}
+
+input RefreshTokenInput {
+    refresh_token: String!
+}
+
+input UpdateProfileInput {
+    first_name: String!
+    last_name: String!
+    phone: String!
+}
+
+input CreateCategoryInput {
+    name: String!
+    description: String!
+}
+
+input UpdateCategoryInput {
+    name: String!
+    description: String!
+    is_active: Boolean
+}
+
+input CreateProductInput {
+    category_id: UInt!
+    name: String!
+    description: String!
+    price: Float!
+    stock: Int!
+    sku: String!
+}
+
+input UpdateProductInput {
+    category_id: UInt!
+    name: String!
+    description: String!
+    price: Float!
+    stock: Int!
+    is_active: Boolean
+}
+
+input AddToCartInput {
+    product_id: UInt!
+    quantity: Int!
+}
+
+input UpdateCartItemInput {
+    quantity: Int!
+}
