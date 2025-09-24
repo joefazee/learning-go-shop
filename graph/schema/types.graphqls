@@ -1,0 +1,100 @@
+scalar Time
+
+type User {
+    id: ID!
+    email: String!
+    first_name: String!
+    last_name: String!
+    phone: String!
+    role: String!
+    is_active: Boolean!
+}
+
+type AuthPayload {
+    user: User!
+    access_token: String!
+    refresh_token: String!
+}
+
+type Category {
+    id: ID!
+    name: String!
+    description: String!
+    is_active: Boolean!
+}
+
+type ProductImage {
+    id: ID!
+    url: String!
+    alt_text: String!
+    is_primary: Boolean!
+}
+
+type Product {
+    id: ID!
+    category_id: ID!
+    name: String!
+    description: String!
+    price: Float!
+    stock: Int!
+    sku: String!
+    is_active: Boolean!
+    category: Category!
+    images: [ProductImage!]!
+}
+
+type CartItem {
+    id: ID!
+    product: Product!
+    quantity: Int!
+    subtotal: Float!
+}
+
+type Cart {
+    id: ID!
+    user_id: ID!
+    cart_items: [CartItem!]!
+    total: Float!
+}
+
+type OrderItem {
+    id: ID!
+    product: Product!
+    quantity: Int!
+    price: Float!
+}
+
+
+type Order {
+    id: ID!
+    user_id: ID!
+    status: String!
+    total_amount: Float!
+    order_items: [OrderItem!]!
+    created_at: String!
+}
+
+type ProductConnection {
+    edges: [ProductEdge!]!
+    pageInfo: PageInfo!
+}
+
+type ProductEdge {
+    node: Product!
+}
+
+type OrderConnection {
+    edges: [OrderEdge!]!
+    pageInfo: PageInfo!
+}
+
+type OrderEdge {
+    node: Order!
+}
+
+type PageInfo {
+    page: Int!
+    limit: Int!
+    total: Int!
+    total_pages: Int!
+}
