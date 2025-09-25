@@ -8,6 +8,9 @@ type User {
     phone: String!
     role: String!
     is_active: Boolean!
+
+    created_at: Time!
+    updated_at: Time!
 }
 
 type AuthPayload {
@@ -21,6 +24,9 @@ type Category {
     name: String!
     description: String!
     is_active: Boolean!
+
+    created_at: Time!
+    updated_at: Time!
 }
 
 type ProductImage {
@@ -28,6 +34,7 @@ type ProductImage {
     url: String!
     alt_text: String!
     is_primary: Boolean!
+    updated_at: Time!
 }
 
 type Product {
@@ -41,6 +48,8 @@ type Product {
     is_active: Boolean!
     category: Category!
     images: [ProductImage!]!
+    created_at: Time!
+    updated_at: Time!
 }
 
 type CartItem {
@@ -48,6 +57,7 @@ type CartItem {
     product: Product!
     quantity: Int!
     subtotal: Float!
+    created_at: Time!
 }
 
 type Cart {
@@ -55,6 +65,8 @@ type Cart {
     user_id: ID!
     cart_items: [CartItem!]!
     total: Float!
+    created_at: Time!
+    updated_at: Time!
 }
 
 type OrderItem {
@@ -62,6 +74,7 @@ type OrderItem {
     product: Product!
     quantity: Int!
     price: Float!
+    created_at: Time!
 }
 
 
@@ -71,7 +84,8 @@ type Order {
     status: String!
     total_amount: Float!
     order_items: [OrderItem!]!
-    created_at: String!
+    created_at: Time!
+    updated_at: Time!
 }
 
 type ProductConnection {
