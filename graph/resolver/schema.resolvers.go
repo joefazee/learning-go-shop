@@ -282,7 +282,6 @@ func (r *queryResolver) Products(ctx context.Context, page *int, limit *int) (*m
 			TotalPages: meta.TotalPages,
 		},
 	}, nil
-
 }
 
 // Product is the resolver for the product field.
@@ -302,7 +301,6 @@ func (r *queryResolver) Product(ctx context.Context, id string) (*dto.ProductRes
 
 // Categories is the resolver for the categories field.
 func (r *queryResolver) Categories(ctx context.Context) ([]*dto.CategoryResponse, error) {
-
 	categories, err := r.productService.GetCategories()
 	if err != nil {
 		return nil, fmt.Errorf("failed to get categories: %w", err)
@@ -391,25 +389,3 @@ func (r *Resolver) Query() graph.QueryResolver { return &queryResolver{r} }
 
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
-
-func getPagingNumbers(page *int, limit *int) (int, int) {
-	var p, l = 0, 0
-
-	if page != nil {
-		p = *page
-	}
-
-	if limit != nil {
-		l = *limit
-	}
-
-	if p <= 0 {
-		p = 1
-	}
-
-	if l <= 0 {
-		l = 10
-	}
-
-	return p, l
-}
