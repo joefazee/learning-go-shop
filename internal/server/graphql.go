@@ -11,6 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/joefazee/learning-go-shop/graph"
 	"github.com/joefazee/learning-go-shop/graph/resolver"
+	"github.com/joefazee/learning-go-shop/internal/utils"
 	"github.com/vektah/gqlparser/v2/ast"
 )
 
@@ -83,9 +84,10 @@ func (s *Server) graphqlMiddleware() gin.HandlerFunc {
 		userEmail, _ := c.Get("user_email")
 		userRole, _ := c.Get("user_role")
 
-		ctx := context.WithValue(c.Request.Context(), "user_id", userID)
-		ctx = context.WithValue(ctx, "user_email", userEmail)
-		ctx = context.WithValue(ctx, "user_role", userRole)
+		ctx := context.WithValue(c.Request.Context(), utils.UserIDKey, userID)
+		ctx = context.WithValue(ctx, utils.UserEmailKey, userEmail)
+		ctx = context.WithValue(ctx, utils.UserRoleKey, userRole)
+		ctx = context.WithValue(ctx, utils.GinContextKey, c)
 
 		c.Request = c.Request.WithContext(ctx)
 
