@@ -8,6 +8,8 @@ import (
 	"gorm.io/gorm"
 )
 
+var _ CartServiceInterface = (*CartService)(nil)
+
 type CartService struct {
 	db *gorm.DB
 }

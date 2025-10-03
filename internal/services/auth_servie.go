@@ -14,6 +14,8 @@ import (
 	"gorm.io/gorm"
 )
 
+var _ AuthServiceInterface = (*AuthService)(nil)
+
 type AuthService struct {
 	db             *gorm.DB
 	config         *config.Config
