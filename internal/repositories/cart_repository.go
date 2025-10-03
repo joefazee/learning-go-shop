@@ -16,14 +16,18 @@ func NewCartRepository(db *gorm.DB) *CartRepository {
 }
 
 func (r *CartRepository) GetByUserID(userID uint) (*models.Cart, error) {
-	return nil, nil
+	var cart models.Cart
+	if err := r.db.Where("user_id = ?", userID).First(&cart).Error; err != nil {
+		return nil, err
+	}
+	return &cart, nil
 }
 func (r *CartRepository) Create(cart *models.Cart) error {
-	return nil
+	return r.db.Create(cart).Error
 }
 func (r *CartRepository) Update(cart *models.Cart) error {
-	return nil
+	return r.db.Save(cart).Error
 }
 func (r *CartRepository) Delete(id uint) error {
-	return nil
+	return r.db.Delete(&models.Cart{}, id).Error
 }
