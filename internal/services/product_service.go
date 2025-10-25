@@ -197,6 +197,77 @@ func (s *ProductService) AddProductImage(productID uint, url, altText string) er
 	return s.db.Create(&image).Error
 }
 
+func (s *ProductService) SearchProducts(req *dto.SearchProductsRequest) ([]dto.ProductSearchResult, *utils.PaginationMeta, error) {
+
+	if req.Page < 1 {
+		req.Page = 1
+	}
+
+	if req.Limit < 1 {
+		req.Limit = 10
+	}
+
+	offset := (req.Page - 1) * req.Limit
+
+	// build query
+	query := s.db.Model(&models.Product{}).
+		Select("products.*, ts_rank(search_vector, plainto_tsquery('english', ?)) as rank", req.Query).
+		Where("search_vector @@ plainto_tsquery('english', ?)", req.Query).
+		Where("is_active = ?", true)
+
+	if req.CategoryID != nil {
+		query = query.Where("category_id = ?", *req.CategoryID)
+	}
+
+	if req.MinPrice != nil {
+		query = query.Where("price >= ?", *req.MinPrice)
+	}
+
+	if req.MaxPrice != nil {
+		query = query.Where("price <= ?", *req.MaxPrice)
+	}
+
+	// Count total results
+	var total int64
+	query.Count(&total)
+
+	// Execute query with ranking and create product slices
+	type productsWithRank struct {
+		models.Product
+		Rank float32 `gorm:"column:rank"`
+	}
+	var rows []productsWithRank
+	if err := query.
+		Order("rank DESC, created_at DESC"). // order by relevance
+		Preload("Category").
+		Preload("Images").
+		Offset(offset).
+		Limit(req.Limit).
+		Find(&rows).Error; err != nil {
+		return nil, nil, err
+	}
+
+	// Build output response
+	results := make([]dto.ProductSearchResult, len(rows))
+	for i := range rows {
+		results[i] = dto.ProductSearchResult{
+			ProductResponse: s.convertToProductResponse(&rows[i].Product),
+			Rank:            rows[i].Rank,
+		}
+	}
+
+	// build pagination meta
+	totalPages := int((total + int64(req.Limit) - 1) / int64(req.Limit))
+	meta := &utils.PaginationMeta{
+		Page:       req.Page,
+		Limit:      req.Limit,
+		Total:      total,
+		TotalPages: totalPages,
+	}
+
+	return results, meta, nil
+}
+
 func (s *ProductService) convertToProductResponse(product *models.Product) dto.ProductResponse {
 	images := make([]dto.ProductImageResponse, len(product.Images))
 	for i := range product.Images {
