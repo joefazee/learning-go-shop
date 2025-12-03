@@ -1,6 +1,6 @@
 # Learning Go Shop
 
-Learning Go Shop is a modern e-commerce backend written in Go, featuring REST and GraphQL APIs, background workers, and integrations with PostgreSQL, AWS services, and local file storage. The codebase is the hands-on companion for the Udemy course [Learn Golang Like Google Engineers Do: 100% Project-Based](https://www.udemy.com/course/draft/6836245/).
+Learning Go Shop is a modern e-commerce backend written in Go, featuring REST and GraphQL APIs, background workers, and integrations with PostgreSQL, AWS services, and local file storage. The codebase is the hands-on companion for the Udemy course [Go (Golang) Masterclass: Learn Like a Google Engineer](https://www.udemy.com/course/learn-golang-like-google-engineers-do).
 
 ## Prerequisites
 - Go 1.23 or newer
